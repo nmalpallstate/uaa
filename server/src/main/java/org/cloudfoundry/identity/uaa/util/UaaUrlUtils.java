@@ -47,14 +47,17 @@ public class UaaUrlUtils {
         return builder;
     }
 
-    public static String findMatchingRedirectUri(Collection<String> wildcardUris, String requestedRedirectUri) {
+    public static String findMatchingRedirectUri(Collection<String> wildcardUris, String requestedRedirectUri, String fallbackRedirectUri) {
         if (wildcardUris != null) {
             Set<Pattern> wildcards = UaaStringUtils.constructWildcards(wildcardUris);
             if (UaaStringUtils.matches(wildcards, requestedRedirectUri)) {
                 return requestedRedirectUri;
+            } else {
+                return fallbackRedirectUri;
             }
+        } else {
+            return requestedRedirectUri;
         }
-        return null;
     }
 
     public static String getHostForURI(String uri) {
