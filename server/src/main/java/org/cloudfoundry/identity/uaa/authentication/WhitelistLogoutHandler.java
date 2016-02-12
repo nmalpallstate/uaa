@@ -60,6 +60,9 @@ public class WhitelistLogoutHandler extends SimpleUrlLogoutSuccessHandler {
     private Set<String> getClientWhitelist(HttpServletRequest request) {
         String clientId = request.getParameter(CLIENT_ID);
         Set<String> redirectUris = null;
+        if (!StringUtils.hasText(clientId)) {
+            return null;
+        }
         try {
             ClientDetails client = clientDetailsService.loadClientByClientId(clientId);
             redirectUris = client.getRegisteredRedirectUri();
@@ -78,8 +81,8 @@ public class WhitelistLogoutHandler extends SimpleUrlLogoutSuccessHandler {
         }
 
         Set<String> clientWhitelist = getClientWhitelist(request);
-        String whiteListRedirect = UaaUrlUtils.findMatchingRedirectUri(whitelist, targetUrl, defaultTargetUrl);
-        String redirectUrl = UaaUrlUtils.findMatchingRedirectUri(clientWhitelist, targetUrl, whiteListRedirect);
+        String whiteListRedirect = UaaUrlUtils.findMatchingRedirectUri(whitelist, targetUrl, defaultTargetUrl, targetUrl);
+        String redirectUrl = UaaUrlUtils.findMatchingRedirectUri(clientWhitelist, targetUrl, whiteListRedirect, whiteListRedirect);
 
         return redirectUrl;
     }

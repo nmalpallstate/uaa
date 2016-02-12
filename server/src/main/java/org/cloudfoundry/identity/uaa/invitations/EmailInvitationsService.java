@@ -64,7 +64,7 @@ public class EmailInvitationsService implements InvitationsService {
         try {
             ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
             Set<String> redirectUris = clientDetails.getRegisteredRedirectUri();
-            String matchingRedirectUri = UaaUrlUtils.findMatchingRedirectUri(redirectUris, redirectUri, redirectLocation);
+            String matchingRedirectUri = UaaUrlUtils.findMatchingRedirectUri(redirectUris, redirectUri, redirectLocation, redirectUri);
             if (StringUtils.hasText(matchingRedirectUri)) {
                 redirectLocation = redirectUri;
             }

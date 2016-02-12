@@ -47,7 +47,7 @@ public class UaaUrlUtils {
         return builder;
     }
 
-    public static String findMatchingRedirectUri(Collection<String> wildcardUris, String requestedRedirectUri, String fallbackRedirectUri) {
+    public static String findMatchingRedirectUri(Collection<String> wildcardUris, String requestedRedirectUri, String fallbackRedirectUri, String defaultWhenNull) {
         if (wildcardUris != null) {
             Set<Pattern> wildcards = UaaStringUtils.constructWildcards(wildcardUris);
             if (UaaStringUtils.matches(wildcards, requestedRedirectUri)) {
@@ -55,9 +55,8 @@ public class UaaUrlUtils {
             } else {
                 return fallbackRedirectUri;
             }
-        } else {
-            return requestedRedirectUri;
         }
+        return defaultWhenNull;
     }
 
     public static String getHostForURI(String uri) {
